@@ -59,10 +59,6 @@ function configureSocketServer (io: SocketIO.Server) {
       } else {
         socket.emit('incorrect', gameOver)
       }
-    })
-
-    socket.on('next', (guess:string) => {
-      const session = sessions[socket.id]
       sendNextItem(socket)
     })
   })
