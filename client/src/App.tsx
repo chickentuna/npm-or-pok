@@ -2,23 +2,26 @@ import React, { useState, useEffect } from 'react'
 import './App.scss'
 import socket from './socket'
 
-function start () {
-  socket.emit('start')
+enum State {
+  INTRO = 'intro',
+  STARTED = 'started'
 }
 
 function App () {
   const [items, setItems] = useState([])
-
-  function addItem (item) {
-    setItems([...items, { name }])
-  }
+  const [state, setState] = useState(State.INTRO)
 
   useEffect(() => {
     console.log('use effect called')
-    socket.on('item', (item) => {
-      addItem(item)
+    socket.on('item', (name) => {
+      setItems(items => [...items, { name }])
     })
   }, [])
+
+  function start () {
+    socket.emit('start')
+    setState(State.STARTED)
+  }
 
   return (
     <div className='App'>
@@ -26,8 +29,9 @@ function App () {
         <h1 className='App-header-title'>NPM OR POKEMON?</h1>
       </header>
       <div className='App-content'>
-        Hello
-        <button onClick={start}>Start</button>
+        {state === State.INTRO && (
+          <button onClick={start}>Start</button>
+        )}
         {items.map(item => (
           <div key={item.name}>{item.name}</div>
         ))}
