@@ -3,20 +3,21 @@ import './App.scss'
 import socket from './socket'
 
 function start () {
-  console.log('emit')
   socket.emit('start')
 }
 
 function App () {
   const [items, setItems] = useState([])
 
+  function addItem (item) {
+    setItems([...items, { name }])
+  }
+
   useEffect(() => {
-    async function init () {
-      socket.on('item', (name) => {
-        setItems([...items, { name }])
-      })
-    }
-    init()
+    console.log('use effect called')
+    socket.on('item', (item) => {
+      addItem(item)
+    })
   }, [])
 
   return (

@@ -2,26 +2,7 @@ import log from './webapp/log'
 import { io } from './webapp/app'
 import { getPokemon, getNpm } from './generator'
 import shuffle from 'shuffle-array'
-
- enum Category {
-  pokemon = 'pokemon',
-  npm = 'npm'
-}
-
- interface Session {
-  socket: SocketIO.Socket
-  name?: string
-  quiz?: QuizItem[]
-}
-
- interface QuizItem {
-  name: string,
-  category: Category
-}
-
- interface Sessions {
-  [id: string]: Session
-}
+import { Sessions, QuizItem, Category } from './types'
 
 const NAMES_PER_CATEGORY = 5
 
