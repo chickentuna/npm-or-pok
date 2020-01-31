@@ -1,5 +1,6 @@
 {
-  "name": "boggle-client",
+  "name": "npm-or-pok",
+  "homepage": "http://37.187.18.6/public/npm-or-pok",
   "version": "0.1.0",
   "scripts": {
     "start": "react-scripts start",
