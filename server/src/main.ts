@@ -3,7 +3,7 @@ import { io } from './webapp/app'
 import { getPokemon, getNpm } from './generator'
 import shuffle from 'shuffle-array'
 import { Sessions, QuizItem, Category } from './types'
-import { createDB } from './db'
+import { createDB, saveGuess } from './db'
 
 const NAMES_PER_CATEGORY = 5
 
@@ -26,9 +26,9 @@ function configureSocketServer (io: SocketIO.Server) {
       sessions[socket.id].name = name
       const pokemon:string[] = []
       const npms:string[] = []
-      const offset = Math.floor(Math.random() * 5) - 2
-      const pokAmount = NAMES_PER_CATEGORY+offset
-      const npmAmount = NAMES_PER_CATEGORY-offset
+      const offset = Math.floor(Math.random() * 4) - 2
+      const pokAmount = NAMES_PER_CATEGORY + offset
+      const npmAmount = NAMES_PER_CATEGORY - offset
 
       fill(pokemon, getPokemon, pokAmount)
       fill(npms, getNpm, npmAmount)
@@ -58,12 +58,14 @@ function configureSocketServer (io: SocketIO.Server) {
 
       session.quiz.shift()
 
+      const correct = guess === item.category
       const gameOver = session.quiz.length === 0
-      if (guess === item.category) {
+      if (correct) {
         socket.emit('correct', gameOver)
       } else {
         socket.emit('incorrect', gameOver)
       }
+      saveGuess(item.name, item.category, correct, socket.handshake.address)
       sendNextItem(socket)
     })
   })

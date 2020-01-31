@@ -1,9 +1,81 @@
-.item {
-  &.correct {
-    color: green;
+.game {
+  h3 {
+    color: chocolate;
+    margin-top: 30px;
   }
-  &.incorrect {
-    color: red;
+  h4 {
+    color: chocolate;
+    font-weight: 400;
+    margin-top: 10px;
   }
-  
+  .start {
+    margin-top: 40px;
+  }
+
+  .current {
+    .current-counter {
+      margin-bottom: 10px;
+      color: rgba(81, 203, 238, 1);
+    }
+    .current-name-container {
+      margin: 40px;
+
+      .current-name {
+        padding: 0 20px;
+        font-weight: normal;
+        letter-spacing: 2px;
+        font-size: 54px;
+        font-family: "Baloo Paaji", cursive;
+        text-transform: capitalize;
+        box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+        border: solid 1px rgba(81, 203, 238, 1);
+      }
+    }
+    .current-buttons-wrapper {
+      display: flex;
+      justify-content: center;
+      .current-buttons {
+        display: flex;
+        justify-content: space-evenly;
+        padding: 0 60px;
+        max-width: 1000px;
+        width: 100%;
+      }
+    }
+  }
+  .items {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .item {
+    width: 30%;
+    max-width: 220px;
+    display: flex;
+    justify-content: flex-start;
+    font-weight: 500;
+    &:nth-child(even) {
+      background: bisque;
+    }
+    &:nth-child(odd) {
+      background: rgba(81, 203, 238, 1);;
+    }
+
+    padding: 5px;
+
+    .item-name {
+      margin: 0 10px;
+    }
+
+    &.correct .item-name {
+      color: green;
+    }
+    &.incorrect .item-name {
+      color: red;
+    }
+  }
+  .restart {
+    margin-top: 30px;
+  }
 }

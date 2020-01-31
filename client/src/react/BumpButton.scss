@@ -1,0 +1,92 @@
+.bump-button {
+  text-align: center;
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  user-select: none;
+  background: none;
+  padding: 0;
+  border-width: 0;
+  outline: none;
+
+  .round {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    outline: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    text-align: center;
+    font-size: 25px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    letter-spacing: -0.065em;
+    font-family: "Hammersmith One", sans-serif;
+    transition: all 0.25s ease-in-out;
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
+    border-radius: 300px;
+    border-width: 4px;
+    border-style: solid;
+
+    &.red {
+      background-color: #cc3534;
+      color: white;
+      border-color: rgba(133, 32, 28, 0.2);
+      &:hover {
+        color: rgba(133, 32, 28, 0.1);
+        border-color: rgba(133, 32, 28, 0.2);
+      }
+    }
+
+    &.black {
+      background-color: #282c34;
+      color: white;
+      border-color:white;
+
+    }
+    &.green {
+      background-color: rgba(1, 151, 171, 1);
+      color: rgba(0, 63, 71, 1);
+      border-color: rgba(0, 63, 71, 0.2);
+    }
+
+    &.blue {
+      background-color: #ffde00;
+      color: #3b4cca;
+      border-color: #3b4cca;
+      &:hover {
+        color: #003a70;
+        border-color: #003a70;
+      }
+    }
+
+    &.yellow {
+      background-color: rgba(252, 227, 1, 1);
+      color: rgba(153, 38, 0, 1);
+      border-color: rgba(153, 38, 0, 0.2);
+    }
+  }
+
+  &:disabled {
+    pointer-events: none;
+  }
+
+  .round:hover:active {
+    transition: all 0.025s ease-in-out;
+  }
+
+  .round:hover:not(:active) {
+    width: 130%;
+    height: 130%;
+    left: -15%;
+    top: -15%;
+    font-size: 33px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    border-width: 6px;
+  }
+}

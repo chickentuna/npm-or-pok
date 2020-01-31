@@ -30,7 +30,7 @@ function normalize (name, lang) {
     pokeName = hangulRomanization.convert(pokeName)
   }
 
-  return removeAccents(pokeName.replace(/ |-/g, '')).toLowerCase()
+  return removeAccents(pokeName.replace(/ |-:/g, '')).toLowerCase()
 }
 
 // TODO: both for all languages
@@ -39,17 +39,7 @@ export function getPokemon ():string {
   while (pokeName == null || both.includes(pokeName) || pokeName.length > 10) {
     const lang:string = langs[Math.floor(Math.random() * langs.length)]
     pokeName = pokemon.random(lang)
-    if (lang === 'ja') {
-      pokeName = japanese.romanize(pokeName)
-    } else if (lang === 'zh-Hant') {
-      pokeName = pinyin(pokeName, { removeSpace: true, removeTone: true })
-    } else if (lang === 'ru') {
-      pokeName = cyrillicToTranslit().transform(pokeName)
-    } else if (lang === 'ko') {
-      pokeName = hangulRomanization.convert(pokeName)
-    }
-
-    pokeName = removeAccents(pokeName.replace(/ |-/g, '')).toLowerCase()
+    pokeName = normalize(pokeName, lang)
   }
   return pokeName
 }
