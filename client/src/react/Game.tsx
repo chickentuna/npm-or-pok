@@ -65,7 +65,7 @@ class Game extends Component<Props, State> {
   }
 
   start () {
-    this.setState(this.state = {
+    this.setState({
       items: [],
       phase: Phase.STARTED,
       current: null,
