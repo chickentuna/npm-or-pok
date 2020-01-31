@@ -3,6 +3,7 @@ import { io } from './webapp/app'
 import { getPokemon, getNpm } from './generator'
 import shuffle from 'shuffle-array'
 import { Sessions, QuizItem, Category } from './types'
+import { createDB } from './db'
 
 const NAMES_PER_CATEGORY = 5
 
@@ -25,8 +26,12 @@ function configureSocketServer (io: SocketIO.Server) {
       sessions[socket.id].name = name
       const pokemon:string[] = []
       const npms:string[] = []
-      fill(pokemon, getPokemon)
-      fill(npms, getNpm)
+      const offset = Math.floor(Math.random() * 5) - 2
+      const pokAmount = NAMES_PER_CATEGORY+offset
+      const npmAmount = NAMES_PER_CATEGORY-offset
+
+      fill(pokemon, getPokemon, pokAmount)
+      fill(npms, getNpm, npmAmount)
 
       const quiz:QuizItem[] = [
         ...pokemon.map(name => ({
@@ -71,13 +76,17 @@ function sendNextItem (socket: SocketIO.Socket) {
     socket.emit('item', next.name)
   }
 }
-configureSocketServer(io)
 
-function fill (list: string[], getter: () => string) {
-  while (list.length < NAMES_PER_CATEGORY) {
+function fill (list: string[], getter: () => string, amount: number) {
+  while (list.length < amount) {
     const name = getter()
     if (!list.includes(name)) {
       list.push(name)
     }
   }
 }
+
+// Entry point
+
+configureSocketServer(io)
+createDB()
