@@ -113,14 +113,16 @@ class Game extends Component<Props, State> {
 
           </div>
         )}
-        <div className='items'>
-          {items.map(item => (
-            <div key={item.name} className={`item ${item.correct ? 'correct' : 'incorrect'}`}>
-              <div className='item-emoji'>{item.correct ? '✔️' : '❌'}</div>
-              <div className='item-name'>{item.name}</div>
-              <div className='item-category'>{item.category}</div>
-            </div>
-          ))}
+        <div className='items-wrapper'>
+          <div className='items'>
+            {items.map(item => (
+              <div key={item.name} className={`item ${item.correct ? 'correct' : 'incorrect'}`}>
+                <div className='item-emoji'>{item.correct ? '✔️' : '❌'}</div>
+                <div className='item-name'>{item.name}</div>
+                <div className='item-category'>{item.category}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {phase === Phase.END && (
