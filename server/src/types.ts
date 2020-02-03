@@ -1,19 +1,45 @@
 export enum Category {
-  pokemon = 'pokemon',
-  npm = 'npm'
+  POKEMON = 'pokemon',
+  NPM = 'npm'
 }
 
 export interface Session {
   socket: SocketIO.Socket
-  name?: string
-  quiz?: QuizItem[]
+  current: QuizItem
+  mode: Mode
+
+  loadNextItem: () => void
+  handleGuess: (guess:string, correct: boolean) => void
+  isGameOver: () => boolean
 }
+
+export interface PracticeSession extends Session {
+  quiz: QuizItem[]
+  mode: Mode.PRACTICE
+  socket: SocketIO.Socket
+}
+
+export interface MarathonSession extends Session {
+  name: string
+  score: number
+  lives: number
+  socket: SocketIO.Socket
+  mode: Mode.MARATHON
+}
+
+// export type Session = PracticeSession | MarathonSession
 
 export interface QuizItem {
   name: string,
   category: Category
 }
 
-export interface Sessions {
-  [id: string]: Session
+export enum Mode {
+  PRACTICE = 'practice',
+  MARATHON = 'marathon'
+}
+
+export interface StartEvent {
+  name?: string,
+  mode: Mode
 }

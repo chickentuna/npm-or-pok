@@ -11,13 +11,12 @@ const langs:string[] = ['de', 'en', 'fr', 'ja', 'ko', 'ru', 'zh-Hant']
 const both:string[] = []
 
 for (const lang of langs) {
-  both.concat(pokemon.all(lang)
+  both.push(...pokemon.all(lang)
+    .map(pok => normalize(pok, lang))
     .filter(pok =>
-      npmNames.includes(normalize(pok, lang))
-    )
+      npmNames.includes(pok))
   )
 }
-
 function normalize (name, lang) {
   let pokeName = name
   if (lang === 'ja') {
@@ -30,10 +29,9 @@ function normalize (name, lang) {
     pokeName = hangulRomanization.convert(pokeName)
   }
 
-  return removeAccents(pokeName.replace(/ |-:/g, '')).toLowerCase()
+  return removeAccents(pokeName.replace(/ |-|:/g, '')).toLowerCase()
 }
 
-// TODO: both for all languages
 export function getPokemon ():string {
   let pokeName:string
   while (pokeName == null || both.includes(pokeName) || pokeName.length > 10) {

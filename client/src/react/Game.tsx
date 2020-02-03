@@ -1,12 +1,19 @@
 import React, { Component } from 'react'
 import socket from '../socket'
-import './Game.scss'
 import { BumpButton } from './BumpButton'
+import './Game.scss'
+
+import { Link } from 'react-router-dom'
 
 enum Phase {
   INTRO = 'intro',
   STARTED = 'started',
   END = 'end'
+}
+
+enum Mode {
+  PRACTICE = 'practice',
+  MARATHON = 'marathon'
 }
 
 interface Props {
@@ -24,7 +31,10 @@ interface State {
   items: Item[]
   phase: Phase
   current: Item,
-  counter: number
+  counter: number,
+  name: string,
+  mode: Mode,
+  lives: number
 }
 
 class Game extends Component<Props, State> {
@@ -32,9 +42,12 @@ class Game extends Component<Props, State> {
     super(props)
     this.state = {
       items: [],
+      name: null,
       phase: Phase.INTRO,
       current: null,
-      counter: 0
+      counter: 0,
+      mode: null,
+      lives: 3
     }
     socket.on('item', (name) => {
       this.setState({
@@ -64,14 +77,30 @@ class Game extends Component<Props, State> {
     })
   }
 
-  start () {
+  startPractice () {
     this.setState({
       items: [],
       phase: Phase.STARTED,
       current: null,
-      counter: 0
+      counter: 0,
+      mode: Mode.PRACTICE
     })
-    socket.emit('start')
+
+    socket.emit('start', { mode: Mode.PRACTICE })
+  }
+
+  startMarathon () {
+    const name = this.state.name == null ? prompt('Please enter your name') : this.state.name
+    this.setState({
+      items: [],
+      phase: Phase.STARTED,
+      current: null,
+      lives: 3,
+      counter: 0,
+      name,
+      mode: Mode.MARATHON
+    })
+    socket.emit('start', { mode: Mode.MARATHON, name })
   }
 
   guess (category) {
@@ -81,8 +110,24 @@ class Game extends Component<Props, State> {
     }
   }
 
+  reset () {
+    this.setState({
+      items: [],
+      name: null,
+      phase: Phase.INTRO,
+      current: null,
+      mode: null
+    })
+  }
+
+  componentWillUnmount () {
+    socket.off('item')
+    socket.off('correct')
+    socket.off('incorrect')
+  }
+
   render () {
-    const { phase, current, items } = this.state
+    const { phase, current, items, mode } = this.state
     return (
 
       <div className='game'>
@@ -92,7 +137,12 @@ class Game extends Component<Props, State> {
             <h4>Not all pokemon names are in English!</h4>
             <div className='start'>
 
-              <BumpButton color='black' handleClick={() => this.start()}>Start</BumpButton>
+              <div className='button-container'>
+                <BumpButton color='black' handleClick={() => this.startPractice()}>Practice</BumpButton>
+              </div>
+              <div className='button-container'>
+                <BumpButton color='black' handleClick={() => this.startMarathon()}>Start</BumpButton>
+              </div>
             </div>
           </>
         )}
@@ -100,7 +150,13 @@ class Game extends Component<Props, State> {
         {current && (
           <div className='current'>
             <div className='current-name-container'>
-              <div className='current-counter'>{this.state.counter}/10</div>
+              {mode === Mode.PRACTICE && (
+                <div className='current-counter bigger'>{this.state.counter}/10</div>
+              )}
+              {mode === Mode.MARATHON && (
+                <div className='current-counter'>n°{this.state.counter}</div>
+              )}
+
               <span className='current-name'>{current.name}</span>
             </div>
 
@@ -114,7 +170,7 @@ class Game extends Component<Props, State> {
           </div>
         )}
         <div className='items-wrapper'>
-          <div className='items'>
+          <div className={`items ${items.length > 10 ? 'multi' : ''}`}>
             {items.map(item => (
               <div key={item.name} className={`item ${item.correct ? 'correct' : 'incorrect'}`}>
                 <div className='item-emoji'>{item.correct ? '✔️' : '❌'}</div>
@@ -128,16 +184,36 @@ class Game extends Component<Props, State> {
         {phase === Phase.END && (
           <>
             <div className='score'>
-              <h3>You have scored {items.reduce((a, b) => a + (b.correct ? 1 : 0), 0)}/10
+              <h3><span>You have scored </span>
+                {mode === Mode.PRACTICE && <span>{items.reduce((a, b) => a + (b.correct ? 1 : 0), 0)}/10</span>}
+                {mode === Mode.MARATHON && <span>{items.reduce((a, b) => a + (b.correct ? 1 : 0), 0)} points</span>}
               </h3>
             </div>
 
-            <div className='restart'>
-              <BumpButton color='black' handleClick={() => this.start()}>Restart</BumpButton>
-            </div>
+            {mode === Mode.PRACTICE && (
+              <div className='restart'>
+                <div className='button-container'>
+                  <BumpButton color='black' handleClick={() => this.startPractice()}>Restart</BumpButton>
+                </div>
+                <div className='button-container'>
+                  <BumpButton color='black' handleClick={() => this.reset()}>Home</BumpButton>
+                </div>
+              </div>
+            )}
+            {mode === Mode.MARATHON && (
+              <div className='restart'>
+
+                <div className='button-container'>
+                  <BumpButton color='black' handleClick={() => this.startMarathon()}>Retry</BumpButton>
+                </div>
+                <div className='button-container'>
+                  <BumpButton color='black' handleClick={() => this.reset()}>Home</BumpButton>
+                </div>
+              </div>
+            )}
           </>
         )}
-
+        <Link to='leaderboard'>Leaderboard</Link>
       </div>
     )
   }
