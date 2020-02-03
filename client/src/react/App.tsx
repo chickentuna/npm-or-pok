@@ -1,13 +1,7 @@
 import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './App.scss'
-import socket from '../socket'
 import Game from './Game'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from 'react-router-dom'
 import { Ranking } from './Ranking'
 
 function App () {
