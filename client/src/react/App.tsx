@@ -11,7 +11,7 @@ function App () {
         <h1 className='App-header-title'>NPM OR POKEMON?</h1>
       </header>
       <div className='App-content'>
-        <Router basename='/npm-or-pok'>
+        <Router basename='/public/npm-or-pok'>
           {/* <Link to='/'>Home</Link> */}
 
           <div>

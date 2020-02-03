@@ -38,15 +38,19 @@ componentWillUnmount () {
 render () {
   const { leaderboard } = this.state
   return (
-    <>{leaderboard && leaderboard.map(rank => (
-      <div key={rank.rank}>
-        <span>{rank.name}</span>
+    <div>
+      {leaderboard && leaderboard.map(rank => (
+        <div key={rank.rank}>
+          <span>{rank.name}</span>
           &nbsp;
-        <span>{rank.score}</span>
+          <span>{rank.score}</span>
+        </div>
+      )
+      )}
+      <div>
+        <Link to='/'>Home</Link>
       </div>
-    ))}
-      <Link to='/'>Home</Link>
-    </>
+    </div>
   )
 }
 }
