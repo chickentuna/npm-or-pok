@@ -42,10 +42,10 @@ export class Ranking extends Component<Props, State> {
       <div className='ranking'>
         <div className='leaderboard'>
           {leaderboard && leaderboard.map(rank => (
-            <div key={rank.rank}>
-              <span>{rank.name}</span>
+            <div className='user-rank' key={rank.rank}>
+              <span className='user-rank-name'>{rank.name}</span>
             &nbsp;
-              <span>{rank.score}</span>
+              <span className='user-rank-score'>{rank.score}</span>
             </div>
           )
           )}
