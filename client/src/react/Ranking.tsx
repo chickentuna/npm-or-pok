@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import socket from '../socket'
+import './Ranking.scss'
 
 interface Props {
 }
@@ -10,47 +11,49 @@ interface State {
 }
 
 export class Ranking extends Component<Props, State> {
-handleLeaderboard: (any) => void
+  handleLeaderboard: (any) => void
 
-constructor (props: Props) {
-  super(props)
-  this.state = {
-    leaderboard: []
-  }
+  constructor (props: Props) {
+    super(props)
+    this.state = {
+      leaderboard: []
+    }
 
-  socket.emit('leaderboard', () => {
-  })
-
-  this.handleLeaderboard = (leaderboard) => {
-    this.setState({
-      leaderboard: leaderboard
+    socket.emit('leaderboard', () => {
     })
-    socket.off('leader')
+
+    this.handleLeaderboard = (leaderboard) => {
+      this.setState({
+        leaderboard: leaderboard
+      })
+      socket.off('leader')
+    }
+
+    socket.on('leaderboard', this.handleLeaderboard)
   }
 
-  socket.on('leaderboard', this.handleLeaderboard)
-}
+  componentWillUnmount () {
+    socket.off('leaderboard', this.handleLeaderboard)
+  }
 
-componentWillUnmount () {
-  socket.off('leaderboard', this.handleLeaderboard)
-}
-
-render () {
-  const { leaderboard } = this.state
-  return (
-    <div>
-      {leaderboard && leaderboard.map(rank => (
-        <div key={rank.rank}>
-          <span>{rank.name}</span>
-          &nbsp;
-          <span>{rank.score}</span>
+  render () {
+    const { leaderboard } = this.state
+    return (
+      <div className='ranking'>
+        <div className='leaderboard'>
+          {leaderboard && leaderboard.map(rank => (
+            <div key={rank.rank}>
+              <span>{rank.name}</span>
+            &nbsp;
+              <span>{rank.score}</span>
+            </div>
+          )
+          )}
         </div>
-      )
-      )}
-      <div>
-        <Link to='/'>Home</Link>
+        <div className='home-link'>
+          <Link to='/'>Home</Link>
+        </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
 }

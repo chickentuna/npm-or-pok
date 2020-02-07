@@ -12,10 +12,11 @@ function App () {
       </header>
       <div className='App-content'>
         <Router basename='/public/npm-or-pok'>
+          {/* <Router basename='/'> */}
           <div>
             <Switch>
 
-              <Route path='leaderboard'>
+              <Route path='/leaderboard'>
                 <Ranking />
               </Route>
               <Route path='/'>
