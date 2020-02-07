@@ -4,6 +4,9 @@ import './App.scss'
 import Game from './Game'
 import { Ranking } from './Ranking'
 
+const location = window.location
+const basename = location.pathname.includes('/public/npm-or-pok') ? '/public/npm-or-pok' : '/'
+
 function App () {
   return (
     <div className='App'>
@@ -11,8 +14,8 @@ function App () {
         <h1 className='App-header-title'>NPM OR POKEMON?</h1>
       </header>
       <div className='App-content'>
-        <Router basename='/public/npm-or-pok'>
-          {/* <Router basename='/'> */}
+        {/* <Router basename='/public/npm-or-pok'> */}
+        <Router basename={basename}>
           <div>
             <Switch>
 

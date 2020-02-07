@@ -41,14 +41,48 @@ export class Ranking extends Component<Props, State> {
     return (
       <div className='ranking'>
         <div className='leaderboard'>
-          {leaderboard && leaderboard.map(rank => (
-            <div className='user-rank' key={rank.rank}>
-              <span className='user-rank-name'>{rank.name}</span>
-            &nbsp;
-              <span className='user-rank-score'>{rank.score}</span>
+          <div className='items-wrapper'>
+            <div className='items'>
+
+              <div key={0} className='item'>
+                <div className='item-col item-rank'>
+                  <div className='item-col-content'>
+                    #
+                  </div>
+                </div>
+                <div className='item-col item-name'>
+                  <div className='item-col-content'>
+                    Name
+                  </div>
+                </div>
+                <div className='item-col item-score'>
+                  <div className='item-col-content'>
+                    Score
+                  </div>
+                </div>
+              </div>
+
+              {leaderboard && leaderboard.map(item => (
+                <div key={item.rank} className='item'>
+                  <div className='item-col item-rank'>
+                    <div className='item-col-content'>
+                      {item.rank}
+                    </div>
+                  </div>
+                  <div className='item-col item-name'>
+                    <div className='item-col-content'>
+                      {item.name}
+                    </div>
+                  </div>
+                  <div className='item-col item-score'>
+                    <div className='item-col-content'>
+                      {item.score}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          )
-          )}
+          </div>
         </div>
         <div className='home-link'>
           <Link to='/'>Home</Link>
