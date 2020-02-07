@@ -27,8 +27,6 @@ export interface MarathonSession extends Session {
   mode: Mode.MARATHON
 }
 
-// export type Session = PracticeSession | MarathonSession
-
 export interface QuizItem {
   name: string,
   category: Category

@@ -17,7 +17,7 @@ function App () {
           <div>
             <Switch>
 
-              <Route path='/leaderboard'>
+              <Route path='leaderboard'>
                 <Ranking />
               </Route>
               <Route path='/'>
