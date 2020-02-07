@@ -12,8 +12,6 @@ function App () {
       </header>
       <div className='App-content'>
         <Router basename='/public/npm-or-pok'>
-          {/* <Link to='/'>Home</Link> */}
-
           <div>
             <Switch>
 

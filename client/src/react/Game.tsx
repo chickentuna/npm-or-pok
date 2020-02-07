@@ -213,7 +213,11 @@ class Game extends Component<Props, State> {
             )}
           </>
         )}
-        <Link to='/leaderboard'>Leaderboard</Link>
+        {phase !== Phase.STARTED && (
+          <div className='leaderboard-link'>
+            <Link to='/leaderboard'>Leaderboard</Link>
+          </div>
+        )}
       </div>
     )
   }
