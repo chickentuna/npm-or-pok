@@ -13,14 +13,10 @@
     display: flex;
   }
   .items {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    border-spacing: 0;
   }
   .item {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
     font-weight: 500;
     &:nth-child(even) {
       background: bisque;
@@ -30,15 +26,9 @@
     }
 
     padding: 5px;
-
-    .item-name {
-      margin: 0 10px;
-    }
     .item-col {
-      margin: 0 20px;
+      padding: 0 20px;
     }
   }
-  .item-col-content {
-    display: flex;
-  }
+
 }
