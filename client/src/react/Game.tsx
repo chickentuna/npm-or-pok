@@ -71,8 +71,10 @@ class Game extends Component<Props, State> {
       correct,
       category
     }
+    const lifeDelta = correct ? 0 : -1
     this.setState({
       items: [...this.state.items, item],
+      lives: this.state.lives + lifeDelta,
       phase: gameOver ? Phase.END : this.state.phase
     })
   }
@@ -127,7 +129,7 @@ class Game extends Component<Props, State> {
   }
 
   render () {
-    const { phase, current, items, mode } = this.state
+    const { phase, current, items, mode, lives, counter } = this.state
     return (
 
       <div className='game'>
@@ -151,10 +153,14 @@ class Game extends Component<Props, State> {
           <div className='current'>
             <div className='current-name-container'>
               {mode === Mode.PRACTICE && (
-                <div className='current-counter bigger'>{this.state.counter}/10</div>
+                <div className='current-counter bigger'>{counter}/10</div>
               )}
               {mode === Mode.MARATHON && (
-                <div className='current-counter'>n°{this.state.counter}</div>
+                <>
+                  <div className='current-counter'>n°{counter}</div>
+                  {lives === 1 && (<div className='current-counter'>{lives} life left</div>)}
+                  {lives > 1 && (<div className={`current-counter ${lives}left`}>{lives} lives left</div>)}
+                </>
               )}
 
               <span className='current-name'>{current.name}</span>

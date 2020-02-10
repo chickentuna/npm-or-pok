@@ -30,6 +30,12 @@
       color: rgba(81, 203, 238, 1);
       font-weight: 600;
       font-size: 25px;
+      &.2left {
+        color: orange;
+      }
+      &.1left {
+        color: red;
+      }
     }
     .current-name-container {
       margin: 35px;
