@@ -1,6 +1,6 @@
 import { MarathonSession, QuizItem, Mode, Category } from './types'
 import { getPokemon, getNpm } from './generator'
-import { saveMarathonResult } from './db'
+import { saveMarathonResult, getLeaderboard } from './db'
 
 const MARATHON_LIVES = 3
 
@@ -56,7 +56,11 @@ export class MarathonGame implements MarathonSession {
     this.current = null
 
     if (this.isGameOver()) {
-      saveMarathonResult(this.name, this.score, this.socket.handshake.address)
+      saveMarathonResult(this.name, this.score, this.socket.handshake.address).then(() => {
+        getLeaderboard().then((leaderboard) => {
+          this.socket.broadcast.emit('leaderboard', leaderboard)
+        })
+      })
     }
   }
 
