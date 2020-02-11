@@ -53,7 +53,7 @@ async function saveMarathonResult (name:string, score:number, address:string) {
 }
 
 async function getLeaderboard () {
-  const result = await get(SQL`SELECT name, max(score)
+  const result = await get(SQL`SELECT name, max(score) score
   FROM marathon 
   GROUP BY name
   ORDER BY score DESC, time`)
