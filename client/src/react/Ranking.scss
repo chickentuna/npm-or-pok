@@ -30,5 +30,10 @@
       padding: 0 20px;
     }
   }
-
+  .item-col-content {
+    word-break: break-word;
+    max-height: 1.2em;
+    overflow: hidden;
+    max-width: 600px;
+  }
 }
