@@ -91,8 +91,15 @@ class Game extends Component<Props, State> {
     socket.emit('start', { mode: Mode.PRACTICE })
   }
 
+  validName (name:string) {
+    return name != null && name.trim() !== ''
+  }
+
   startMarathon () {
     const name = this.state.name == null ? prompt('Please enter your name') : this.state.name
+    if (!this.validName(name)) {
+      return
+    }
     this.setState({
       items: [],
       phase: Phase.STARTED,
