@@ -78,6 +78,9 @@
       flex-direction: row;
       flex-wrap: wrap;
       max-width: 866px;
+      .item {
+        width: auto;
+      }
     }
   }
   .item {
