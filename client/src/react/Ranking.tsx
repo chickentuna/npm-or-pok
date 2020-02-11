@@ -40,6 +40,9 @@ export class Ranking extends Component<Props, State> {
     const { leaderboard } = this.state
     return (
       <div className='ranking'>
+        <div className='home-link'>
+          <Link to='/'>Home</Link>
+        </div>
         <div className='leaderboard'>
           <div className='items-wrapper'>
             <table className='items'>
@@ -83,9 +86,6 @@ export class Ranking extends Component<Props, State> {
               </tbody>
             </table>
           </div>
-        </div>
-        <div className='home-link'>
-          <Link to='/'>Home</Link>
         </div>
       </div>
     )
