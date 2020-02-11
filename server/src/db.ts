@@ -53,7 +53,10 @@ async function saveMarathonResult (name:string, score:number, address:string) {
 }
 
 async function getLeaderboard () {
-  const result = await get(SQL`SELECT name, score FROM marathon ORDER BY score DESC, time`)
+  const result = await get(SQL`SELECT name, max(score)
+  FROM marathon 
+  GROUP BY name
+  ORDER BY score DESC, time`)
   result.forEach((value, index) => {
     value.rank = index + 1
   })
