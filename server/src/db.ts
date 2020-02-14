@@ -3,11 +3,18 @@ import sqlite from 'sqlite'
 import SQL from 'sql-template-strings'
 import { Category } from './types'
 
+let db = null
+
+async function getDb () {
+  if (db == null) {
+    db = await sqlite.open('./database.sqlite')
+  }
+  return db
+}
+
 async function run (query) {
   try {
-    const db = await sqlite.open('./database.sqlite')
-    await db.run(query)
-    await db.close()
+    (await getDb()).run(query)
   } catch (err) {
     log.error(err.message)
   }
@@ -15,9 +22,7 @@ async function run (query) {
 
 async function get (query) {
   try {
-    const db = await sqlite.open('./database.sqlite')
-    const result = await db.all(query)
-    await db.close()
+    const result = (await getDb()).all(query)
     return result
   } catch (err) {
     log.error(err.message)
@@ -57,7 +62,7 @@ async function getLeaderboard () {
   FROM marathon 
   GROUP BY name
   ORDER BY score DESC, time`)
-  result.forEach((value, index) => {
+  result.forEach((value:any, index) => {
     value.rank = index + 1
   })
   return result
